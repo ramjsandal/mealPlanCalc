@@ -72,5 +72,11 @@ public interface IRecipe {
    */
   float getSodium();
 
+  /**
+   * Returns the recipe info as a string in csv format
+   * @return the recipe info as a string in csv format
+   */
+  String toCSV();
+
 
 }

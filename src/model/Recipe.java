@@ -118,4 +118,36 @@ public class Recipe implements IRecipe {
   public float getSodium() {
     return this.sodium;
   }
+
+  /**
+   * This outputs the recipe info in the format:
+   * name, url, category, calories, carbs, proteins, fats
+   * @return
+   */
+  @Override
+  public String toCSV() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(name);
+    sb.append(",");
+
+    sb.append(url);
+    sb.append(",");
+
+    sb.append(category);
+    sb.append(",");
+
+    sb.append(calories);
+    sb.append(",");
+
+    sb.append(carbs);
+    sb.append(",");
+
+    sb.append(protein);
+    sb.append(",");
+
+    sb.append(fats);
+
+    return sb.toString();
+  }
+
 }
