@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import controller.CLIController;
 import controller.IController;
 import model.FileUtil;
+import model.IModel;
 import model.IRecipe;
+import model.MacroModel;
 import model.SimpleFileUtil;
 import model.SimpleRecipeSearch;
 import view.CLIView;
+import view.GUIView;
 import view.IView;
 
 public class main {
@@ -45,7 +48,9 @@ public class main {
    }
      */
     IView view = new CLIView();
-    IController controller = new CLIController(view, new InputStreamReader(System.in));
+    //IView guiView = new GUIView();
+    IModel model = new MacroModel();
+    IController controller = new CLIController(model, view, new InputStreamReader(System.in));
 
     controller.startProgram();
   }

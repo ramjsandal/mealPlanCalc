@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -24,8 +25,6 @@ public class SimpleFileUtil implements FileUtil {
   public ArrayList<IRecipe> load(String path) throws IllegalArgumentException {
     Scanner sc;
     ArrayList<IRecipe> recipes = new ArrayList<>();
-    int i = 0;
-    int goodRecipes = 0;
 
 
     try {
@@ -38,29 +37,23 @@ public class SimpleFileUtil implements FileUtil {
     while(sc.hasNext()) {
       sc.useDelimiter(",");
 
-      // iteration
-      System.out.println(i);
-
       // name
       String name = sc.next();
-      System.out.println("Name: \n" + name);
 
       // url
       String url = sc.next();
-      System.out.println("URL: \n" + url);
 
       // category
       String category = sc.next();
-      System.out.println("Category: \n" + category);
 
       // author
-      System.out.println("Author: \n" + sc.next());
+      sc.next();
 
       // summary
       if (sc.hasNext("\".*")) {
-        System.out.println("Has a summary in quotes: \n" + sc.findInLine(Pattern.compile(",\"[^\"]*\",")));
+        sc.findInLine(Pattern.compile(",\"[^\"]*\","));
       } else {
-        System.out.println("Has a summary with no quotes: \n" + sc.next());
+        sc.next();
       }
 
       // rating
@@ -70,7 +63,6 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         rating = 0;
       }
-      System.out.println("Rating: \n" + rating);
 
       // rating count
       int ratingCount;
@@ -79,35 +71,30 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         ratingCount = 0;
       }
-      System.out.println("Rating: \n" + ratingCount);
 
       // reviewCount
-      // was nextInt
-      System.out.println("Review Count: \n" + sc.next());
+      sc.next();
 
       // ingredients
-      System.out.println("Ingredients: \n" + sc.next());
+      sc.next();
 
       // directions
-      System.out.println("Directions:");
-      System.out.println(sc.findInLine(Pattern.compile(",\"[^\"]*\",")));
+      sc.findInLine(Pattern.compile(",\"[^\"]*\","));
 
       // prep
-      System.out.println("Prep:");
-      System.out.println(sc.next());
+      sc.next();
 
       // cook
-      System.out.println("Cook:");
-      System.out.println(sc.next());
+      sc.next();
 
       // total
-      System.out.println("Total: \n" + sc.next());
+      sc.next();
 
       // servings
-      System.out.println("Servings: \n" + sc.next());
+      sc.next();
 
       // yield
-      System.out.println("Yield: \n" + sc.next());
+      sc.next();
 
       // calories
       float calories;
@@ -116,7 +103,6 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         calories = 0;
       }
-      System.out.println("Calories: \n" + calories);
 
       // carbs
       float carbs;
@@ -125,7 +111,6 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         carbs = 0;
       }
-      System.out.println("Carbs: \n" + carbs);
 
       // sugars
       float sugars;
@@ -134,7 +119,6 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         sugars = 0;
       }
-      System.out.println("Sugars: \n" + sugars);
 
       // fat
       float fat;
@@ -143,13 +127,12 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         fat = 0;
       }
-      System.out.println("Fats: \n" + fat);
 
       // saturated fat
-      System.out.println("Saturated Fats: \n" + sc.next());
+      sc.next();
 
       // cholesterol
-      System.out.println("Cholesterol: \n" + sc.next());
+      sc.next();
 
       // protein
       float protein;
@@ -158,10 +141,9 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         protein = 0;
       }
-      System.out.println("Proteins: \n" + protein);
 
       // dietary fiber
-      System.out.println("Dietary Fiber: \n" + sc.next());
+      sc.next();
 
       // sodium
       float sodium;
@@ -170,27 +152,28 @@ public class SimpleFileUtil implements FileUtil {
       } catch (NumberFormatException e) {
         sodium = 0;
       }
-      System.out.println("Sodium: \n" + sodium);
 
       // calorie from fat
-      System.out.println("Calories from fat: \n" + sc.next());
+      sc.next();
 
       // calcium
-      System.out.println("Calcium: \n" + sc.next());
+      sc.next();
 
       // iron
-      System.out.println("Iron: \n" + sc.next());
+      sc.next();
 
       // magnesium
-      System.out.println("Magnesium: \n" + sc.next());
+      sc.next();
 
       // potassium
-      System.out.println("Potassium \n" + sc.next());
+      sc.next();
 
       // zinc
-      System.out.println("Zinc: \n" + sc.next());
+      sc.next();
+
+      // go to next recipe
       sc.useDelimiter("\n");
-      System.out.println(sc.next());
+      sc.next();
       /*
       // phosphorous
       sc.next();
@@ -247,12 +230,11 @@ public class SimpleFileUtil implements FileUtil {
       IRecipe recipe = new Recipe(name, url, category, rating, ratingCount, calories, carbs, sugars, fat, protein, sodium);
       if (recipe.getPowerRating() > 100) {
         recipes.add(recipe);
-        goodRecipes++;
       }
-      i++;
     }
-    System.out.println("Recipes we looked at: " + i);
-    System.out.println("Good Recipes:" + goodRecipes);
+
+    // sorts high to low
+    Collections.sort(recipes, (r1, r2) -> {return (int) ((int) r2.getPowerRating() - r1.getPowerRating());});
     return recipes;
   }
 

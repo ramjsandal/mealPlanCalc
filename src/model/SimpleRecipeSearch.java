@@ -4,16 +4,17 @@ import java.awt.font.NumericShaper;
 import java.util.ArrayList;
 
 public class SimpleRecipeSearch {
-  private final String category;
-  private final float minCalories;
-  private final float maxCalories;
+  private String category;
 
-  private final float minProtein;
-  private final float maxProtein;
-  private final float minCarbs;
-  private final float maxCarbs;
-  private final float minFats;
-  private final float maxFats;
+  private float minCalories;
+  private float maxCalories;
+
+  private float minProtein;
+  private float maxProtein;
+  private float minCarbs;
+  private float maxCarbs;
+  private float minFats;
+  private float maxFats;
 
   public SimpleRecipeSearch(String category, float minCals, float maxCals, float minProt,
                             float maxProt, float minCarbs, float maxCarbs, float minFats,
@@ -27,6 +28,10 @@ public class SimpleRecipeSearch {
     this.maxCarbs = maxCarbs;
     this.minFats = minFats;
     this.maxFats = maxFats;
+  }
+
+  public SimpleRecipeSearch() {
+    this("", 0, 100000, 0, 100000, 0, 100000, 0, 100000);
   }
 
   public ArrayList<IRecipe> findRecipes(ArrayList<IRecipe> recipes) {
@@ -134,4 +139,69 @@ public class SimpleRecipeSearch {
     ret = ret / 4;
     return ret;
   }
+
+  public float getMinCalories() {
+    return minCalories;
+  }
+
+  public void setMinCalories(float minCalories) {
+    this.minCalories = minCalories;
+  }
+
+  public float getMaxCalories() {
+    return maxCalories;
+  }
+
+  public void setMaxCalories(float maxCalories) {
+    this.maxCalories = maxCalories;
+  }
+
+  public float getMinProtein() {
+    return minProtein;
+  }
+
+  public void setMinProtein(float minProtein) {
+    this.minProtein = minProtein;
+  }
+
+  public float getMaxProtein() {
+    return maxProtein;
+  }
+
+  public void setMaxProtein(float maxProtein) {
+    this.maxProtein = maxProtein;
+  }
+
+  public float getMinCarbs() {
+    return minCarbs;
+  }
+
+  public void setMinCarbs(float minCarbs) {
+    this.minCarbs = minCarbs;
+  }
+
+  public float getMaxCarbs() {
+    return maxCarbs;
+  }
+
+  public void setMaxCarbs(float maxCarbs) {
+    this.maxCarbs = maxCarbs;
+  }
+
+  public float getMinFats() {
+    return minFats;
+  }
+
+  public void setMinFats(float minFats) {
+    this.minFats = minFats;
+  }
+
+  public float getMaxFats() {
+    return maxFats;
+  }
+
+  public void setMaxFats(float maxFats) {
+    this.maxFats = maxFats;
+  }
+
 }

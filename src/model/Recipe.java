@@ -150,4 +150,31 @@ public class Recipe implements IRecipe {
     return sb.toString();
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(name);
+    sb.append(": ");
+
+    sb.append(url);
+    sb.append(",\n");
+
+    sb.append("Calories: ");
+    sb.append(calories);
+    sb.append("\n");
+
+    sb.append("Carbs: ");
+    sb.append(carbs);
+    sb.append("\n");
+
+    sb.append("Protein: ");
+    sb.append(protein);
+    sb.append("\n");
+
+    sb.append("Fats: ");
+    sb.append(fats);
+
+    return sb.toString();
+  }
+
 }
