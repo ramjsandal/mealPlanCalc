@@ -31,6 +31,7 @@ public class SimpleRecipeSearch {
 
   public ArrayList<IRecipe> findRecipes(ArrayList<IRecipe> recipes) {
     ArrayList<IRecipe> out = new ArrayList<>();
+    System.out.println("Looking at recipes");
     for (int i = 0; i < recipes.size(); i++) {
       IRecipe current = recipes.get(i);
       if (inRange(current.getCalories(), minCalories, maxCalories)
