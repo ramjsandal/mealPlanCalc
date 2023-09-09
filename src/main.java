@@ -29,7 +29,7 @@ public class main {
             new SimpleRecipeSearch("main-dish",
                     600, 1000, 40, 60, 100, 120,
                     20, 40);
-    outRecipes = simpleSearch.findRecipes(outRecipes);
+    outRecipes = simpleSearch.findByRatio(outRecipes);
     System.out.println("We found " + outRecipes.size() + " recipes that fit our macro constraints");
 
    try {

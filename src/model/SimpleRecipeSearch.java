@@ -56,18 +56,32 @@ public class SimpleRecipeSearch {
     float minFatRatio;
     float maxFatRatio;
 
+    Tuple<Float, Float> currentRange;
+
     ArrayList<IRecipe> out = new ArrayList<>();
     for (int i = 0; i < recipes.size(); i++) {
       IRecipe current = recipes.get(i);
-      minCalRatio = current.getCalories() / minCalories;
-      minCarbRatio = current.getCarbs() / minCarbs;
-      minFatRatio = current.getFats() / minFats;
-      minProtRatio = current.getProtein() / minProtein;
+      minCalRatio = minCalories / current.getCalories();
+      minCarbRatio = minCarbs / current.getCarbs();
+      minFatRatio = minFats / current.getFats();
+      minProtRatio = minProtein / current.getProtein();
 
-      maxCalRatio = current.getCalories() / maxCalories;
-      maxCarbRatio = current.getCarbs() / maxCarbs;
-      maxFatRatio = current.getFats() / maxFats;
-      maxProtRatio = current.getProtein() / maxProtein;
+      maxCalRatio = maxCalories / current.getCalories();
+      maxCarbRatio = maxCarbs / current.getCarbs();
+      maxFatRatio = maxFats / current.getFats();
+      maxProtRatio = maxProtein / current.getProtein();
+      Tuple<Float, Float> cals = new Tuple<>(minCalRatio, maxCalRatio);
+      Tuple<Float, Float> carb = new Tuple<>(minCarbRatio, maxCarbRatio);
+      Tuple<Float, Float> fat = new Tuple<>(minFatRatio, maxFatRatio);
+      Tuple<Float, Float> prot = new Tuple<>(minProtRatio, maxProtRatio);
+
+      currentRange = findRange(cals, carb, fat, prot);
+      if (currentRange == null) {
+        continue;
+      } else {
+        System.out.println(findBestServing(currentRange));
+        out.add(current);
+      }
 
 
     }
@@ -78,18 +92,45 @@ public class SimpleRecipeSearch {
     return (num >= min && num <= max);
   }
 
-  private Tuple<Float, Float> rangeOverlap(Tuple<Float, Float> range1, Tuple<Float, Float> range2) {
+  private Tuple<Float, Float> rangeOverlap(Tuple<Float, Float> range1, Tuple<Float, Float> range2)
+  throws IllegalArgumentException {
     if (inRange(range2.first, range1.first, range1.second)
             || inRange(range2.second, range1.first, range1.second)) {
       Tuple ret = new Tuple(Math.max(range1.first, range2.first), Math.min(range1.second, range2.second));
       return ret;
     }
-    return null;
+    throw new IllegalArgumentException("These two tuples do not overlap");
   }
 
   private Tuple<Float, Float> findRange(Tuple<Float, Float> cals, Tuple<Float, Float> carbs,
                                         Tuple<Float, Float> fats, Tuple<Float, Float> protein) {
-  Tuple<Float, Float> ret = new Tuple<>(0f,0f);
+  Tuple<Float, Float> ret = new Tuple<>(Float.MIN_VALUE, Float.MAX_VALUE);
+  try {
+    ret = rangeOverlap(ret, cals);
+    ret = rangeOverlap(ret, carbs);
+    ret = rangeOverlap(ret, fats);
+    ret = rangeOverlap(ret, protein);
+  } catch (IllegalArgumentException e) {
+    return null;
+  }
+
   return ret;
+  }
+
+  private float findBestServing(Tuple<Float, Float> range) {
+    // if we have an int in our acceptable range, use that, otherwise use float in the middle
+    int intVersion = (int) ((range.first + range.second) / 2);
+    if (inRange(intVersion, range.first, range.second)) {
+      return intVersion;
+    }
+
+    return roundToNearestQuarter((range.first + range.second) / 2);
+  }
+
+  private float roundToNearestQuarter(float f) {
+
+    float ret = Math.round(f * 4);
+    ret = ret / 4;
+    return ret;
   }
 }
